@@ -42,11 +42,15 @@ import java.util.stream.Collectors;
 @JdkProxyHint(types = GreetingsClient.class)
 @TypeHint(typeNames = {
 
-
-	"com.oracle.svm.core.hub.Target_java_lang_invoke_TypeDescriptor_OfField[]",
+	// todo for some reason the following 3 need to be added but can't be added via these Hints
+	// todo see: https://github.com/spring-projects-experimental/spring-native/commit/866743f01043e1de1edea43cf3e9c9cba7fd4a27
+	// todo we can add *json files in Spring Native, too. See the post above for an example.
+//	"com.oracle.svm.core.hub.Target_java_lang_constant_Constable[]",
+//	"com.oracle.svm.core.hub.Target_java_lang_invoke_TypeDescriptor_OfField[]",
+//	"com.oracle.svm.core.hub.Target_java_lang_invoke_TypeDescriptor[]",
 	"jdk.vm.ci.meta.JavaKind$FormatWithToString[]",
 	"java.lang.reflect.AnnotatedElement[]",
-	"java.lang.reflect.GenericDeclaration[]"})
+	"java.lang.reflect.GenericDeclaration[]"}, access = AccessBits.ALL)
 
 @TypeHint(types = {
 	GreetingsClient.class,
@@ -57,7 +61,6 @@ import java.util.stream.Collectors;
 	RetrofitClientFactoryBean.class,},
 	access = AccessBits.ALL)
 @SpringBootApplication
-//@EnableRetrofitClients
 public class SquareApplication {
 
 	public static void main(String[] args) {
