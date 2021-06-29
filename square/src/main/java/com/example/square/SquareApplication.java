@@ -22,7 +22,10 @@ public class SquareApplication {
 
     @Bean
     ApplicationRunner runner(GreetingsClient gc) {
-        return events -> System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
+        return events ->    {
+            for (int i  = 0 ; i < 3 ; i++)
+                System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
+        } ;
     }
 
     @Bean
@@ -33,9 +36,12 @@ public class SquareApplication {
 }
 
 @RetrofitClient(
+  "greeting-service"
+)
+/*@RetrofitClient(
         name = "greetingsClient",
         url = "http://localhost:8080"
-)
+)*/
 interface GreetingsClient {
 
     @GET("/hello/{name}")
