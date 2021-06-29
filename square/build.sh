@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-
-mvn -DskipTests=true -Pnative package && ./target/square
+export DEBUG=true
+mvn -DskipTests=true -Pnative clean  package && ./target/square
