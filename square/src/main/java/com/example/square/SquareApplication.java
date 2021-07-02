@@ -1,87 +1,67 @@
 package com.example.square;
 
 import okhttp3.OkHttpClient;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
-import org.springframework.cloud.square.retrofit.DefaultRetrofitClientConfiguration;
+import org.springframework.boot.context.event.EventPublishingRunListener;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
-import org.springframework.cloud.square.retrofit.RetrofitClientFactoryBean;
-import org.springframework.cloud.square.retrofit.core.AbstractRetrofitClientFactoryBean;
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
-import org.springframework.cloud.square.retrofit.core.RetrofitClientSpecification;
-import org.springframework.cloud.square.retrofit.core.RetrofitContext;
-import org.springframework.cloud.square.retrofit.support.SpringConverterFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.nativex.hint.*;
+import org.springframework.nativex.hint.AccessBits;
+import org.springframework.nativex.hint.TypeHint;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-import java.util.stream.Collectors;
-
-// todo write a NativeConfiguration that finds all the beans with @RetrofitClient on
-// it as i did in the Retrosocket project
-
-@ResourceHint(
-	patterns = {
-		"org/springframework/cloud/square/okhttp/loadbalancer/OkHttpLoadBalancerAutoConfiguration.class",
-		"org/springframework/cloud/square/retrofit/RetrofitAutoConfiguration.class"
-	}
-)
-@NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http "})
-@JdkProxyHint(types = GreetingsClient.class)
-@TypeHint(typeNames = {
-
-	// todo for some reason the following 3 need to be added but can't be added via these Hints
-	// todo see: https://github.com/spring-projects-experimental/spring-native/commit/866743f01043e1de1edea43cf3e9c9cba7fd4a27
-	// todo we can add *json files in Spring Native, too. See the post above for an example.
-//	"com.oracle.svm.core.hub.Target_java_lang_constant_Constable[]",
-//	"com.oracle.svm.core.hub.Target_java_lang_invoke_TypeDescriptor_OfField[]",
-//	"com.oracle.svm.core.hub.Target_java_lang_invoke_TypeDescriptor[]",
-	"jdk.vm.ci.meta.JavaKind$FormatWithToString[]",
-	"java.lang.reflect.AnnotatedElement[]",
-	"java.lang.reflect.GenericDeclaration[]"}, access = AccessBits.ALL)
-
-@TypeHint(types = {
-	GreetingsClient.class,
-	DefaultRetrofitClientConfiguration.class,
-	RetrofitClientSpecification.class,
-	EnableRetrofitClients.class,
-	AbstractRetrofitClientFactoryBean.class,
-	RetrofitClientFactoryBean.class,},
-	access = AccessBits.ALL)
+@EnableRetrofitClients
+@TypeHint(
+	access = AccessBits. ALL ,
+	types =  {EventPublishingRunListener.class} ,
+	typeNames = {
+	"com.netflix.discovery.EurekaClientConfig" ,
+	"com.netflix.appinfo.InstanceInfo$ActionType",
+	"org.bouncycastle.jsse.BCSSLEngine",
+		"io.netty.handler.ssl.BouncyCastleAlpnSslUtils"
+})
+@EnableDiscoveryClient
 @SpringBootApplication
 public class SquareApplication {
+
+	@Bean
+	@LoadBalanced
+	OkHttpClient.Builder okHttpClientBuilder() {
+		return new OkHttpClient.Builder();
+	}
+
+	@Bean
+	ApplicationRunner runner(GreetingsClient gc) {
+		return event -> {
+			var result = gc.hello("Spring Fans!").execute().body();
+			System.out.println("result: " + result);
+		};
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SquareApplication.class, args);
 	}
 }
 
-@Configuration
-@EnableRetrofitClients
-class AutoRetrofitClientConfiguration {
 
+@RetrofitClient(
+	"greetings"
+)
+interface GreetingsClient {
 
-	@Bean
-	ApplicationRunner bootifulRunner(GreetingsClient gc) {
-		return events -> {
-			System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
-		};
-	}
-
-
+	@GET("/hello/{name}")
+	Call<String> hello(@Path("name") String name);
 }
+
+
+/*
+
 
 @Profile("simple")
 @Configuration
@@ -113,12 +93,10 @@ class SimpleRetrofitClientFactoryBeanConfiguration {
 
 	@Bean
 	ApplicationRunner bootifulRunner(GreetingsClient gc) {
-		return events -> {
-			System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
-		};
+		return events -> System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
 	}
 
-	//	@LoadBalanced
+	@LoadBalanced
 	@Bean
 	OkHttpClient.Builder okHttpClientBuilder() {
 		return new OkHttpClient.Builder();
@@ -148,15 +126,4 @@ class RawRetrofitConfiguration {
 
 }
 
-/*@RetrofitClient(
-	"greeting-service"
-)*/
-@RetrofitClient(
-	name = "greetingsClient",
-	url = "http://localhost:8080"
-)
-interface GreetingsClient {
-
-	@GET("/hello/{name}")
-	Call<String> hello(@Path("name") String name);
-}
+*/

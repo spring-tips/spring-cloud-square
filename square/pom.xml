@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
+
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.5.2</version>
@@ -17,19 +19,33 @@
         <java.version>11</java.version>
         <repackage.classifier/>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
-        <spring-native.version>0.10.1-SNAPSHOT</spring-native.version>
+        <spring-native.version>
+            0.10.2-SNAPSHOT
+        </spring-native.version>
+
+        <spring-cloud-commons.version>3.0.4-SNAPSHOT
+        </spring-cloud-commons.version>
+
+
+        <!--        <spring-native.version>0.10.1-SNAPSHOT</spring-native.version>-->
         <!--
             0.4.0-M1
         -->
         <spring-cloud-square.version>
             0.4.0-SNAPSHOT
         </spring-cloud-square.version>
+
     </properties>
     <dependencies>
 
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -38,12 +54,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-square-retrofit</artifactId>
-            <version>${spring-cloud-square.version}</version>
+            <version>0.4.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-square-okhttp</artifactId>
-            <version>${spring-cloud-square.version}</version>
+            <version>0.4.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.experimental</groupId>
@@ -63,6 +79,13 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-commons-dependencies</artifactId>
+                <version>${spring-cloud-commons.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -98,6 +121,9 @@
                 <groupId>org.springframework.experimental</groupId>
                 <artifactId>spring-aot-maven-plugin</artifactId>
                 <version>${spring-native.version}</version>
+     <!--           <configuration>
+                    <mode>native-agent</mode>
+                </configuration>-->
                 <executions>
                     <execution>
                         <id>test-generate</id>
@@ -113,6 +139,13 @@
                     </execution>
                 </executions>
             </plugin>
+    <!--        <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-DspringAot=true -agentlib:native-image-agent=access-filter-file=src/test/resources/access-filter.json,config-merge-dir=target/classes/META-INF/native-image</argLine>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
     <repositories>
@@ -184,6 +217,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                 </plugins>
             </build>
         </profile>

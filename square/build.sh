@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 export DEBUG=true
-mvn -DskipTests=true -Pnative clean  package && ./target/square
+mkdir -p target/classes/META-INF/native-image
+mvn -X -DskipTests=true -Pnative clean  package && ./target/square
