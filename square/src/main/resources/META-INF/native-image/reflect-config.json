@@ -9,27 +9,6 @@
     "name": "com.oracle.svm.core.hub.Target_java_lang_invoke_TypeDescriptor[]"
   },
   {
-    "name": "java.beans.PropertyVetoException"
-  },
-  {
-    "name": "java.net.NetPermission"
-  },
-  {
-    "name": "java.net.SocketPermission"
-  },
-  {
-    "name": "java.net.URLPermission",
-    "methods": [
-      {
-        "name": "<init>",
-        "parameterTypes": [
-          "java.lang.String",
-          "java.lang.String"
-        ]
-      }
-    ]
-  },
-  {
     "name": "java.nio.Bits",
     "methods": [
       {
