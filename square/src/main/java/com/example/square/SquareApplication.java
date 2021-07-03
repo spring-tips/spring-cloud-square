@@ -10,22 +10,25 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.nativex.hint.AccessBits;
 import org.springframework.nativex.hint.TypeHint;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
+import java.util.Map;
+
 @EnableRetrofitClients
 @TypeHint(
-	access = AccessBits. ALL ,
-	types =  {EventPublishingRunListener.class} ,
+	access = AccessBits.ALL,
+	types = {EventPublishingRunListener.class},
 	typeNames = {
-	"com.netflix.discovery.EurekaClientConfig" ,
-	"com.netflix.appinfo.InstanceInfo$ActionType",
-	"org.bouncycastle.jsse.BCSSLEngine",
+		"com.netflix.discovery.EurekaClientConfig",
+		"com.netflix.appinfo.InstanceInfo$ActionType",
+		"org.bouncycastle.jsse.BCSSLEngine",
 		"io.netty.handler.ssl.BouncyCastleAlpnSslUtils"
-})
+	})
 @EnableDiscoveryClient
 @SpringBootApplication
 public class SquareApplication {
@@ -37,8 +40,12 @@ public class SquareApplication {
 	}
 
 	@Bean
-	ApplicationRunner runner(GreetingsClient gc) {
+	ApplicationRunner runner(
+		Map<String, ConversionService> css,
+		GreetingsClient gc) {
 		return event -> {
+			System.out.println(" " + css.size() + " conversionService instance(s).");
+			css.forEach((k, v) -> System.out.println(k + '=' + v.getClass().getName()));
 			var result = gc.hello("Spring Fans!").execute().body();
 			System.out.println("result: " + result);
 		};
