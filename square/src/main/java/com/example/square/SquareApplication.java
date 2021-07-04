@@ -12,13 +12,24 @@ import org.springframework.cloud.loadbalancer.annotation.*;
 import org.springframework.cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration;
 import org.springframework.cloud.loadbalancer.config.LoadBalancerAutoConfiguration;
 import org.springframework.cloud.loadbalancer.core.*;
+import org.springframework.cloud.loadbalancer.stats.MicrometerStatsLoadBalancerLifecycle;
+import org.springframework.cloud.netflix.eureka.loadbalancer.EurekaLoadBalancerClientConfiguration;
+import org.springframework.cloud.square.okhttp.loadbalancer.OkHttpLoadBalancerAutoConfiguration;
+import org.springframework.cloud.square.retrofit.DefaultRetrofitClientConfiguration;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
+import org.springframework.cloud.square.retrofit.RetrofitClientFactoryBean;
+import org.springframework.cloud.square.retrofit.core.AbstractRetrofitClientFactoryBean;
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
+import org.springframework.cloud.square.retrofit.core.RetrofitClientSpecification;
+import org.springframework.cloud.square.retrofit.core.RetrofitContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.nativex.hint.AccessBits;
+import org.springframework.nativex.hint.NativeHint;
+import org.springframework.nativex.hint.ResourceHint;
 import org.springframework.nativex.hint.TypeHint;
 import retrofit2.Call;
+import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -31,6 +42,11 @@ import java.util.Map;
 @TypeHint(
 	access = AccessBits.ALL,
 	typeNames = {
+		"jdk.vm.ci.meta.JavaKind$FormatWithToString[]",
+		"sun.security.ssl.SSLContextImpl$TLSContext",
+		"sun.security.ssl.TrustManagerFactoryImpl$PKIXFactory",
+		"java.lang.reflect.AnnotatedElement[]",
+		"java.lang.reflect.GenericDeclaration[]",
 		"com.netflix.discovery.EurekaClientConfig",
 		"com.netflix.appinfo.InstanceInfo$ActionType",
 		"org.bouncycastle.jsse.BCSSLEngine",
@@ -46,7 +62,6 @@ import java.util.Map;
 		"org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$OnCaffeineCacheMissingCondition",
 	},
 	types = {
-
 		DelegatingServiceInstanceListSupplier.class,
 		CommonsClientAutoConfiguration.class,
 		CachingServiceInstanceListSupplier.class,
@@ -70,7 +85,40 @@ import java.util.Map;
 		BlockingLoadBalancerClientAutoConfiguration.class,
 		LoadBalancerAutoConfiguration.class,
 		EventPublishingRunListener.class,
+		MicrometerStatsLoadBalancerLifecycle.class,
+		LoadBalancerAutoConfiguration.class,
+		org.springframework.cloud.loadbalancer.config.LoadBalancerAutoConfiguration.class,
+		org.springframework.cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration.class,
+		org.springframework.cloud.loadbalancer.config.LoadBalancerStatsAutoConfiguration.class,
+		org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration.class,
+		org.springframework.cloud.loadbalancer.security.OAuth2LoadBalancerClientAutoConfiguration.class,
+		org.springframework.cloud.client.loadbalancer.LoadBalancerClient.class,
+		LoadBalancerClientConfiguration.class,
+		LoadBalancerClientConfigurationRegistrar.class,
+		LoadBalancerClientSpecification.class,
+		LoadBalancerClients.class,
+		OkHttpLoadBalancerAutoConfiguration.class,
+		EurekaLoadBalancerClientConfiguration.class,
+		org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration.class,
+		org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer.class,
+		DefaultRetrofitClientConfiguration.class,
+		RetrofitContext.class,
+		RetrofitClientSpecification.class,
+		EnableRetrofitClients.class,
+		AbstractRetrofitClientFactoryBean.class,
+		RetrofitClientFactoryBean.class,
+		Retrofit.Builder.class,
 	})
+
+@ResourceHint(
+	patterns = {
+		"org/springframework/cloud/square/okhttp/loadbalancer/OkHttpLoadBalancerAutoConfiguration.class",
+		"org/springframework/cloud/square/retrofit/RetrofitAutoConfiguration.class"
+	}
+)
+@NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http,https "})
+
+
 @EnableDiscoveryClient
 @SpringBootApplication
 public class SquareApplication {
