@@ -47,52 +47,6 @@
     "allPublicMethods": true
   },
   {
-    "name": "org.springframework.cloud.client.actuator.HasFeatures",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.client.serviceregistry.AutoServiceRegistration",
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.client.serviceregistry.AutoServiceRegistrationAutoConfiguration",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true,
-    "allDeclaredConstructors": true
-  },
-  {
-    "name": "org.springframework.cloud.client.serviceregistry.AutoServiceRegistrationConfiguration",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true,
-    "allDeclaredConstructors": true
-  },
-  {
-    "name": "org.springframework.cloud.client.serviceregistry.AutoServiceRegistrationProperties",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true,
-    "allDeclaredConstructors": true
-  },
-  {
-    "name": "org.springframework.cloud.client.serviceregistry.Registration",
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.client.serviceregistry.ServiceRegistry",
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.client.serviceregistry.ServiceRegistryAutoConfiguration",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true,
-    "allDeclaredConstructors": true
-  },
-  {
     "name": "org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient",
     "allDeclaredMethods": true
   },
@@ -156,29 +110,6 @@
   {
     "name": "org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients",
     "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.loadbalancer.blocking.client.BlockingLoadBalancerClient",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.loadbalancer.cache.DefaultLoadBalancerCacheManager",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.loadbalancer.cache.LoadBalancerCacheManager",
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.loadbalancer.cache.LoadBalancerCacheProperties",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
-    "allPublicMethods": true,
-    "allDeclaredConstructors": true
   },
   {
     "name": "org.springframework.cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration",
@@ -285,12 +216,6 @@
   },
   {
     "name": "org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier",
-    "allPublicMethods": true
-  },
-  {
-    "name": "org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory",
-    "allDeclaredFields": true,
-    "allDeclaredMethods": true,
     "allPublicMethods": true
   }
 ]
