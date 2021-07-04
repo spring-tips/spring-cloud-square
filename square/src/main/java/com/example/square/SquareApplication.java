@@ -5,8 +5,13 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.EventPublishingRunListener;
+import org.springframework.cloud.client.*;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.loadbalancer.annotation.*;
+import org.springframework.cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration;
+import org.springframework.cloud.loadbalancer.config.LoadBalancerAutoConfiguration;
+import org.springframework.cloud.loadbalancer.core.*;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
 import org.springframework.context.annotation.Bean;
@@ -20,20 +25,51 @@ import retrofit2.http.Path;
 import java.util.Map;
 
 
-
 @EnableRetrofitClients
-
-
 
 
 @TypeHint(
 	access = AccessBits.ALL,
-	types = {EventPublishingRunListener.class},
 	typeNames = {
 		"com.netflix.discovery.EurekaClientConfig",
 		"com.netflix.appinfo.InstanceInfo$ActionType",
 		"org.bouncycastle.jsse.BCSSLEngine",
-		"io.netty.handler.ssl.BouncyCastleAlpnSslUtils"
+		"io.netty.handler.ssl.BouncyCastleAlpnSslUtils",
+		"org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration$BlockingOnAvoidPreviousInstanceAndRetryEnabledCondition",
+		"org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration$BlockingSupportConfiguration",
+		"org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration$ReactiveOnAvoidPreviousInstanceAndRetryEnabledCondition",
+		"org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration$ReactiveRetryConfiguration",
+		"org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration$ReactiveSupportConfiguration",
+		"org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$DefaultLoadBalancerCacheManagerConfiguration",
+		"org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCacheManagerWarnConfiguration",
+		"org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger",
+		"org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration$OnCaffeineCacheMissingCondition",
+	},
+	types = {
+
+		DelegatingServiceInstanceListSupplier.class,
+		CommonsClientAutoConfiguration.class,
+		CachingServiceInstanceListSupplier.class,
+		ServiceInstanceListSupplier.class,
+		LoadBalancerClientSpecification.class,
+		ReactorServiceInstanceLoadBalancer.class,
+		RoundRobinLoadBalancer.class,
+		ReactorLoadBalancer.class,
+		LoadBalancerClientConfigurationRegistrar.class,
+		LoadBalancerClients.class,
+		ConditionalOnBlockingDiscoveryEnabled.class,
+		org.springframework.cloud.loadbalancer.config.LoadBalancerZoneConfig.class,
+		ConditionalOnDiscoveryEnabled.class,
+		ConditionalOnDiscoveryHealthIndicatorEnabled.class,
+		ConditionalOnReactiveDiscoveryEnabled.class,
+		HostInfoEnvironmentPostProcessor.class,
+		ReactiveCommonsClientAutoConfiguration.class,
+		ServiceInstance.class,
+		LoadBalancerClient.class,
+		LoadBalancerClientConfiguration.class,
+		BlockingLoadBalancerClientAutoConfiguration.class,
+		LoadBalancerAutoConfiguration.class,
+		EventPublishingRunListener.class,
 	})
 @EnableDiscoveryClient
 @SpringBootApplication
