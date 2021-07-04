@@ -4,20 +4,13 @@ import okhttp3.OkHttpClient;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.CommonsClientAutoConfiguration;
-import org.springframework.cloud.client.ReactiveCommonsClientAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfigurationRegistrar;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientSpecification;
-import org.springframework.cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration;
-import org.springframework.cloud.loadbalancer.config.LoadBalancerAutoConfiguration;
 import org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration;
 import org.springframework.cloud.loadbalancer.config.LoadBalancerStatsAutoConfiguration;
-import org.springframework.cloud.loadbalancer.security.OAuth2LoadBalancerClientAutoConfiguration;
-import org.springframework.cloud.netflix.eureka.loadbalancer.EurekaLoadBalancerClientConfiguration;
-import org.springframework.cloud.square.okhttp.loadbalancer.OkHttpLoadBalancerAutoConfiguration;
 import org.springframework.cloud.square.retrofit.DefaultRetrofitClientConfiguration;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
 import org.springframework.cloud.square.retrofit.RetrofitClientFactoryBean;
@@ -35,43 +28,22 @@ import retrofit2.http.Path;
 
 import java.util.Map;
 
-
 @EnableRetrofitClients
 
 
 @TypeHint(
 	access = AccessBits.ALL,
 	types = {
-
-
-		// we need the following for sure:
 		AbstractRetrofitClientFactoryBean.class,
 		RetrofitClientFactoryBean.class,
-		// don't know if we need the following:
-		CommonsClientAutoConfiguration.class,
+		RetrofitClientSpecification.class,
 		DefaultRetrofitClientConfiguration.class,
-		EurekaLoadBalancerClientConfiguration.class,
-		LoadBalancerAutoConfiguration.class,
-		BlockingLoadBalancerClientAutoConfiguration.class,
-		LoadBalancerCacheAutoConfiguration.CaffeineLoadBalancerCacheManagerConfiguration.class,
-		LoadBalancerCacheAutoConfiguration.DefaultLoadBalancerCacheManagerConfiguration.class,
-		LoadBalancerCacheAutoConfiguration.LoadBalancerCacheManagerWarnConfiguration.class,
-		LoadBalancerCacheAutoConfiguration.LoadBalancerCaffeineWarnLogger.class,
 		LoadBalancerCacheAutoConfiguration.class,
-		LoadBalancerClientConfiguration.BlockingOnAvoidPreviousInstanceAndRetryEnabledCondition.class,
-		LoadBalancerClientConfiguration.BlockingSupportConfiguration.class,
-		LoadBalancerClientConfiguration.ReactiveOnAvoidPreviousInstanceAndRetryEnabledCondition.class,
-		LoadBalancerClientConfiguration.ReactiveRetryConfiguration.class,
-		LoadBalancerClientConfiguration.ReactiveSupportConfiguration.class,
 		LoadBalancerClientConfiguration.class,
 		LoadBalancerClientConfigurationRegistrar.class,
 		LoadBalancerClientSpecification.class,
 		LoadBalancerStatsAutoConfiguration.class,
-		OAuth2LoadBalancerClientAutoConfiguration.class,
-		OkHttpLoadBalancerAutoConfiguration.class,
-		ReactiveCommonsClientAutoConfiguration.class,
-		RetrofitClientSpecification.class,
-		LoadBalancerClientConfiguration.class,
+
 	})
 @NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http,https "})
 
