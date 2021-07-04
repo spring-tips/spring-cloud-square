@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 export DEBUG=true
-mkdir -p target/classes/META-INF/native-image
-#mvn -X -DskipTests=true -Pnative clean  package && ./target/square
-mvn   -DskipTests=true -Pnative clean  package && ./target/square
+# shellcheck disable=SC2046
+START=$( cd $(dirname $0) && pwd )
+echo "starting in $START"
+mkdir -p ${START}/target/classes/META-INF/native-image
+mvn -DskipTests=true -Pnative -f $START/pom.xml clean  package && $START/target/square
