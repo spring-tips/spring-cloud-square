@@ -23,7 +23,8 @@
             0.10.2-SNAPSHOT
         </spring-native.version>
 
-        <spring-cloud-commons.version>3.0.4-SNAPSHOT
+        <spring-cloud-commons.version>
+            3.0.4-SNAPSHOT
         </spring-cloud-commons.version>
 
 

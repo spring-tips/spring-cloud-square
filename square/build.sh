@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export DEBUG=true
+# export DEBUG=true
 # shellcheck disable=SC2046
 START=$( cd $(dirname $0) && pwd )
 echo "starting in $START"
