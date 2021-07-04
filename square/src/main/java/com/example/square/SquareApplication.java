@@ -38,11 +38,16 @@ import java.util.Map;
 		RetrofitClientFactoryBean.class,
 		RetrofitClientSpecification.class,
 		DefaultRetrofitClientConfiguration.class,
-		LoadBalancerCacheAutoConfiguration.class,
 		LoadBalancerClientConfiguration.class,
-		LoadBalancerClientConfigurationRegistrar.class,
-		LoadBalancerClientSpecification.class,
-		LoadBalancerStatsAutoConfiguration.class,
+
+		// maybe this one should be included?
+//		LoadBalancerClientSpecification.class,
+
+		// dunno...
+//		LoadBalancerCacheAutoConfiguration.class,
+//		LoadBalancerClientConfiguration.class,
+//		LoadBalancerClientConfigurationRegistrar.class,
+//		LoadBalancerStatsAutoConfiguration.class,
 
 	})
 @NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http,https "})
