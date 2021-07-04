@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
-import org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer;
 import org.springframework.cloud.square.retrofit.DefaultRetrofitClientConfiguration;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
 import org.springframework.cloud.square.retrofit.RetrofitClientFactoryBean;
@@ -18,7 +17,6 @@ import org.springframework.nativex.hint.AccessBits;
 import org.springframework.nativex.hint.NativeHint;
 import org.springframework.nativex.hint.TypeHint;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
