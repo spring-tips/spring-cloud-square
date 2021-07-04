@@ -1,23 +1,21 @@
 package com.example.square;
 
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClientConfig;
 import okhttp3.OkHttpClient;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.EventPublishingRunListener;
-import org.springframework.cloud.client.*;
+import org.springframework.cloud.client.CommonsClientAutoConfiguration;
+import org.springframework.cloud.client.ReactiveCommonsClientAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.loadbalancer.annotation.*;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfigurationRegistrar;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientSpecification;
 import org.springframework.cloud.loadbalancer.config.BlockingLoadBalancerClientAutoConfiguration;
 import org.springframework.cloud.loadbalancer.config.LoadBalancerAutoConfiguration;
 import org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration;
 import org.springframework.cloud.loadbalancer.config.LoadBalancerStatsAutoConfiguration;
-import org.springframework.cloud.loadbalancer.core.*;
 import org.springframework.cloud.loadbalancer.security.OAuth2LoadBalancerClientAutoConfiguration;
-import org.springframework.cloud.loadbalancer.stats.MicrometerStatsLoadBalancerLifecycle;
 import org.springframework.cloud.netflix.eureka.loadbalancer.EurekaLoadBalancerClientConfiguration;
 import org.springframework.cloud.square.okhttp.loadbalancer.OkHttpLoadBalancerAutoConfiguration;
 import org.springframework.cloud.square.retrofit.DefaultRetrofitClientConfiguration;
@@ -26,19 +24,15 @@ import org.springframework.cloud.square.retrofit.RetrofitClientFactoryBean;
 import org.springframework.cloud.square.retrofit.core.AbstractRetrofitClientFactoryBean;
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
 import org.springframework.cloud.square.retrofit.core.RetrofitClientSpecification;
-import org.springframework.cloud.square.retrofit.core.RetrofitContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.nativex.hint.AccessBits;
 import org.springframework.nativex.hint.NativeHint;
 import org.springframework.nativex.hint.TypeHint;
 import retrofit2.Call;
-import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.GenericDeclaration;
 import java.util.Map;
 
 
@@ -47,35 +41,18 @@ import java.util.Map;
 
 @TypeHint(
 	access = AccessBits.ALL,
-	typeNames = {
-//		"jdk.vm.ci.meta.JavaKind$FormatWithToString[]",
-//		"sun.security.ssl.SSLContextImpl$TLSContext",
-//		"sun.security.ssl.TrustManagerFactoryImpl$PKIXFactory",
-//		"org.bouncycastle.jsse.BCSSLEngine",
-//		"io.netty.handler.ssl.BouncyCastleAlpnSslUtils",
-	},
 	types = {
-		ConditionalOnBlockingDiscoveryEnabled.class,
-		ConditionalOnDiscoveryEnabled.class,
-		ConditionalOnDiscoveryHealthIndicatorEnabled.class,
-		ConditionalOnReactiveDiscoveryEnabled.class,
-		EnableRetrofitClients.class,
-		LoadBalancerClient.class,
-		LoadBalancerClients.class,
 
+
+		// we need the following for sure:
 		AbstractRetrofitClientFactoryBean.class,
-		BlockingLoadBalancerClientAutoConfiguration.class,
-		CachingServiceInstanceListSupplier.class,
+		RetrofitClientFactoryBean.class,
+		// don't know if we need the following:
 		CommonsClientAutoConfiguration.class,
 		DefaultRetrofitClientConfiguration.class,
-		DelegatingServiceInstanceListSupplier.class,
-		EurekaClientConfig.class,
 		EurekaLoadBalancerClientConfiguration.class,
-		EventPublishingRunListener.class,
-		GenericDeclaration[].class, AnnotatedElement[].class,
-		HostInfoEnvironmentPostProcessor.class,
-		InstanceInfo.ActionType.class,
 		LoadBalancerAutoConfiguration.class,
+		BlockingLoadBalancerClientAutoConfiguration.class,
 		LoadBalancerCacheAutoConfiguration.CaffeineLoadBalancerCacheManagerConfiguration.class,
 		LoadBalancerCacheAutoConfiguration.DefaultLoadBalancerCacheManagerConfiguration.class,
 		LoadBalancerCacheAutoConfiguration.LoadBalancerCacheManagerWarnConfiguration.class,
@@ -90,30 +67,12 @@ import java.util.Map;
 		LoadBalancerClientConfigurationRegistrar.class,
 		LoadBalancerClientSpecification.class,
 		LoadBalancerStatsAutoConfiguration.class,
-		MicrometerStatsLoadBalancerLifecycle.class,
 		OAuth2LoadBalancerClientAutoConfiguration.class,
 		OkHttpLoadBalancerAutoConfiguration.class,
 		ReactiveCommonsClientAutoConfiguration.class,
-		ReactorLoadBalancer.class,
-		ReactorServiceInstanceLoadBalancer.class,
-		Retrofit.Builder.class,
-		RetrofitClientFactoryBean.class,
 		RetrofitClientSpecification.class,
-		RetrofitContext.class,
-		RoundRobinLoadBalancer.class,
-		ServiceInstance.class,
-		ServiceInstanceListSupplier.class,
-		org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration.class,
-		org.springframework.cloud.loadbalancer.config.LoadBalancerZoneConfig.class,
-		org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer.class
+		LoadBalancerClientConfiguration.class,
 	})
-
-/*@ResourceHint(
-	patterns = {
-//		"org/springframework/cloud/square/okhttp/loadbalancer/OkHttpLoadBalancerAutoConfiguration.class",
-//		"org/springframework/cloud/square/retrofit/RetrofitAutoConfiguration.class"
-	}
-)*/
 @NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http,https "})
 
 
