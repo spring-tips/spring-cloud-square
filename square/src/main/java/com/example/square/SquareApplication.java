@@ -25,8 +25,6 @@ import retrofit2.http.Path;
 @TypeHint(
 	access = AccessBits.ALL,
 	types = {
-//		Retrofit.Builder.class,
-//		ReactorLoadBalancer.class,
 		AbstractRetrofitClientFactoryBean.class,
 		RetrofitClientFactoryBean.class,
 		RetrofitClientSpecification.class,
@@ -34,7 +32,6 @@ import retrofit2.http.Path;
 		LoadBalancerClientConfiguration.class,
 	})
 @NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http,https "})
-
 @EnableRetrofitClients
 @SpringBootApplication
 public class SquareApplication {
