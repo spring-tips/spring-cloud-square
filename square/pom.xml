@@ -22,13 +22,9 @@
         <spring-native.version>
             0.10.2-SNAPSHOT
         </spring-native.version>
-
         <spring-cloud-commons.version>
             3.0.4-SNAPSHOT
         </spring-cloud-commons.version>
-
-
-        <!--        <spring-native.version>0.10.1-SNAPSHOT</spring-native.version>-->
         <!--
             0.4.0-M1
         -->
@@ -38,17 +34,14 @@
 
     </properties>
     <dependencies>
-
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web </artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-square-retrofit</artifactId>
@@ -119,9 +112,9 @@
                 <groupId>org.springframework.experimental</groupId>
                 <artifactId>spring-aot-maven-plugin</artifactId>
                 <version>${spring-native.version}</version>
-     <!--           <configuration>
-                    <mode>native-agent</mode>
-                </configuration>-->
+                <!--           <configuration>
+                               <mode>native-agent</mode>
+                           </configuration>-->
                 <executions>
                     <execution>
                         <id>test-generate</id>
@@ -137,13 +130,13 @@
                     </execution>
                 </executions>
             </plugin>
-    <!--        <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <argLine>-DspringAot=true -agentlib:native-image-agent=access-filter-file=src/test/resources/access-filter.json,config-merge-dir=target/classes/META-INF/native-image</argLine>
-                </configuration>
-            </plugin>-->
+            <!--        <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <argLine>-DspringAot=true -agentlib:native-image-agent=access-filter-file=src/test/resources/access-filter.json,config-merge-dir=target/classes/META-INF/native-image</argLine>
+                        </configuration>
+                    </plugin>-->
         </plugins>
     </build>
     <repositories>

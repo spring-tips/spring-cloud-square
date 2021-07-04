@@ -4,13 +4,9 @@ import okhttp3.OkHttpClient;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfigurationRegistrar;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientSpecification;
-import org.springframework.cloud.loadbalancer.config.LoadBalancerCacheAutoConfiguration;
-import org.springframework.cloud.loadbalancer.config.LoadBalancerStatsAutoConfiguration;
+import org.springframework.cloud.loadbalancer.core.ReactorLoadBalancer;
 import org.springframework.cloud.square.retrofit.DefaultRetrofitClientConfiguration;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
 import org.springframework.cloud.square.retrofit.RetrofitClientFactoryBean;
@@ -18,42 +14,28 @@ import org.springframework.cloud.square.retrofit.core.AbstractRetrofitClientFact
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
 import org.springframework.cloud.square.retrofit.core.RetrofitClientSpecification;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.nativex.hint.AccessBits;
 import org.springframework.nativex.hint.NativeHint;
 import org.springframework.nativex.hint.TypeHint;
 import retrofit2.Call;
+import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-
-import java.util.Map;
-
-@EnableRetrofitClients
-
 
 @TypeHint(
 	access = AccessBits.ALL,
 	types = {
+//		Retrofit.Builder.class,
+//		ReactorLoadBalancer.class,
 		AbstractRetrofitClientFactoryBean.class,
 		RetrofitClientFactoryBean.class,
 		RetrofitClientSpecification.class,
 		DefaultRetrofitClientConfiguration.class,
 		LoadBalancerClientConfiguration.class,
-
-		// maybe this one should be included?
-//		LoadBalancerClientSpecification.class,
-
-		// dunno...
-//		LoadBalancerCacheAutoConfiguration.class,
-//		LoadBalancerClientConfiguration.class,
-//		LoadBalancerClientConfigurationRegistrar.class,
-//		LoadBalancerStatsAutoConfiguration.class,
-
 	})
 @NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http,https "})
 
-
-@EnableDiscoveryClient
+@EnableRetrofitClients
 @SpringBootApplication
 public class SquareApplication {
 
@@ -64,15 +46,8 @@ public class SquareApplication {
 	}
 
 	@Bean
-	ApplicationRunner runner(
-		Map<String, ConversionService> css,
-		GreetingsClient gc) {
-		return event -> {
-			System.out.println(" " + css.size() + " conversionService instance(s).");
-			css.forEach((k, v) -> System.out.println(k + '=' + v.getClass().getName()));
-			var result = gc.hello("Spring Fans!").execute().body();
-			System.out.println("result: " + result);
-		};
+	ApplicationRunner runner(GreetingsClient gc) {
+		return event -> System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
 	}
 
 	public static void main(String[] args) {
