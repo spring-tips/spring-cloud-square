@@ -8,8 +8,6 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -25,8 +23,8 @@ public class SquareApplication {
 	}
 
 	@Bean
-	ApplicationRunner runner(GreetingsClient gc) {
-		return event -> System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
+	ApplicationRunner runner(GithubClient gc) {
+		return event -> System.out.println("User profile: " + gc.getUserprofile("joshlong").execute().body());
 	}
 
 	public static void main(String[] args) {
@@ -34,79 +32,9 @@ public class SquareApplication {
 	}
 }
 
+@RetrofitClient(url = "https://api.github.com", name = "github")
+interface GithubClient {
 
-@RetrofitClient(
-	"greetings"
-)
-interface GreetingsClient {
-
-	@GET("/hello/{name}")
-	Call<String> hello(@Path("name") String name);
+	@GET("/users/{username}")
+	Call<String> getUserprofile(@Path("username") String username);
 }
-
-/*
-
-@Profile("simple")
-@Configuration
-class SimpleRetrofitClientFactoryBeanConfiguration {
-
-	@Bean
-	ConversionService conversionService() {
-		return new DefaultConversionService();
-	}
-
-	@Bean
-	RetrofitClientFactoryBean myClient(ApplicationContext context) {
-		var rcfb = new RetrofitClientFactoryBean();
-		rcfb.setApplicationContext(context);
-		rcfb.setName("gs");
-		rcfb.setType(GreetingsClient.class);
-		rcfb.setUrl("http://localhost:8080/");
-
-		return rcfb;
-	}
-
-	@Bean
-	RetrofitContext retrofitContext(ObjectProvider<RetrofitClientSpecification> clientSpecifications) {
-		RetrofitContext context = new RetrofitContext(DefaultRetrofitClientConfiguration.class);
-		context.setConfigurations(clientSpecifications.stream().collect(Collectors.toList()));
-		return context;
-	}
-
-
-	@Bean
-	ApplicationRunner bootifulRunner(GreetingsClient gc) {
-		return events -> System.out.println("result: " + gc.hello("Spring Fans!").execute().body());
-	}
-
-	@LoadBalanced
-	@Bean
-	OkHttpClient.Builder okHttpClientBuilder() {
-		return new OkHttpClient.Builder();
-	}
-}
-
-@Configuration
-@Profile("raw")
-class RawRetrofitConfiguration {
-
-	@Bean
-	ApplicationRunner rawRunner(ObjectFactory<HttpMessageConverters> convs,
-																													ConversionService conversionService) {
-		return args -> {
-			var retrofit = new Retrofit.Builder()
-				.baseUrl("http://localhost:8080/")
-				.addConverterFactory(new SpringConverterFactory(convs, conversionService))
-				.build();
-			var service = retrofit.create(GreetingsClient.class);
-			System.out.println(
-				service
-					.hello("Spring Fans")
-					.execute().body()
-			);
-		};
-	}
-
-}
-
-*/
