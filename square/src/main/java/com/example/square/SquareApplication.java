@@ -24,7 +24,7 @@ public class SquareApplication {
 
 	@Bean
 	ApplicationRunner runner(GithubClient gc) {
-		return event -> System.out.println("User profile: " + gc.getUserprofile("joshlong").execute().body());
+		return event -> System.out.println("Use  r profile: " + gc.getUserprofile("joshlong").execute().body());
 	}
 
 	public static void main(String[] args) {
