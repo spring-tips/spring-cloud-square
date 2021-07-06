@@ -5,31 +5,15 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientConfiguration;
-import org.springframework.cloud.square.retrofit.DefaultRetrofitClientConfiguration;
 import org.springframework.cloud.square.retrofit.EnableRetrofitClients;
-import org.springframework.cloud.square.retrofit.RetrofitClientFactoryBean;
-import org.springframework.cloud.square.retrofit.core.AbstractRetrofitClientFactoryBean;
 import org.springframework.cloud.square.retrofit.core.RetrofitClient;
-import org.springframework.cloud.square.retrofit.core.RetrofitClientSpecification;
 import org.springframework.context.annotation.Bean;
-import org.springframework.nativex.hint.AccessBits;
-import org.springframework.nativex.hint.NativeHint;
-import org.springframework.nativex.hint.TypeHint;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-@TypeHint(
-	access = AccessBits.ALL,
-	types = {
-		AbstractRetrofitClientFactoryBean.class,
-		RetrofitClientFactoryBean.class,
-		RetrofitClientSpecification.class,
-		DefaultRetrofitClientConfiguration.class,
-		LoadBalancerClientConfiguration.class,
-	})
-@NativeHint(options = {" -H:+AddAllCharsets --enable-url-protocols=http,https "})
 @EnableRetrofitClients
 @SpringBootApplication
 public class SquareApplication {
@@ -60,9 +44,7 @@ interface GreetingsClient {
 	Call<String> hello(@Path("name") String name);
 }
 
-
 /*
-
 
 @Profile("simple")
 @Configuration
